@@ -39,3 +39,26 @@ from pharmacy_sales
 WHERE cogs>total_sales
 GROUP BY manufacturer
 ORDER BY total_loss DESC;
+--ex9
+select id, movie, description, rating
+from cinema
+where id%2 = 1
+and description <> 'boring'
+order by rating desc;
+--ex10
+select teacher_id,
+count(distinct subject_id) as cnt
+from teacher
+group by teacher_id;
+--ex11
+select user_id,
+count(follower_id) as followers_count
+from followers
+group by user_id
+order by user_id asc;
+--ex12
+select class
+from Courses
+Group by class
+having count(student) >=5;
+
