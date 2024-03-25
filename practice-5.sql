@@ -62,3 +62,24 @@ on e1.employee_id = e2.reports_to
 group by e1.employee_id, e1.name
 order by employee_id
 
+--ex6
+select p.product_name,
+sum(o.unit) as unit
+from products as p
+join orders as o
+on p.product_id = o.product_id
+where o.order_date between '2020-02-01' AND '2020-02-29'
+group by p.product_name
+having sum(o.unit) >=100;
+
+--ex7
+SELECT a.page_id
+FROM pages as a 
+LEFT JOIN page_likes as b 
+ON a.page_id = b.page_id
+WHERE b.liked_date is NULL
+ORDER BY a.page_id ASC;
+
+
+
+
