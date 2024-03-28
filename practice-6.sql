@@ -84,6 +84,32 @@ SUM(CASE WHEN state = 'approved' then amount else 0 END) as approved_total_amoun
 FROM Transactions
 GROUP BY month, country
 
+--ex7
+with cte1 as (
+SELECT
+ product_id, quantity,
+ MIN(year) AS first_year
+FROM Sales as s
+GROUP BY product_id
+)
+
+Select cte1.product_id, cte1.first_year, cte1.quantity, s.price
+from Sales as s
+join cte1
+on s.product_id = cte1.product_id
+join Product as p
+group by s.product_id
+order by s.product_id
+
+--ex8
+with cte as(
+select count(product_key) as ct from Product
+)
+select customer_id from Customer 
+group by customer_id
+having count(distinct product_key) = (SELECT ct FROM cte)
+
+
 
 
 
