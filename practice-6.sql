@@ -109,6 +109,53 @@ select customer_id from Customer
 group by customer_id
 having count(distinct product_key) = (SELECT ct FROM cte)
 
+--ex9
+select employee_id from Employees
+where salary < 30000
+and manager_id is not null
+and manager_id not in (select employee_id from Employees);
+
+--ex10
+WITH com_count AS (
+SELECT title, description, company_id
+FROM job_listings
+group by title, description, company_id
+having COUNT(*) >= 2
+)
+SELECT COUNT(DISTINCT company_id) FROM com_count
+AS duplicate_companies
+    
+--ex11
+(select u.name as results
+from Users as u
+inner join MovieRating as movie
+on u.user_id = movie.user_id
+group by u.user_id
+order by count(movie.user_id) desc, u.name asc
+limit 1)
+
+union all
+(
+select m.title as results
+from Movies as m
+join MovieRating as movie
+on m.movie_id = movie.movie_id
+where extract(year_month from created_at) = 202002
+group by m.title
+order by avg(movie.rating) DESC,  m.title ASC 
+limit 1
+)
+
+--ex12
+with cte as (
+select requester_id as id from RequestAccepted
+union all
+select accepter_id as id from RequestAccepted
+)
+select id, count(*) as num from cte
+group by id
+order by num desc
+limit 1
 
 
 
